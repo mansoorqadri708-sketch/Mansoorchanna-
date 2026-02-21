@@ -1,0 +1,14 @@
+# Initialize git (if not already done)
+git init
+
+# Add all your files
+git add .
+
+# Commit the files
+git commit -m "Initial commit - Media Upload App"
+
+# Add your GitHub repository
+git remote add origin https://github.com/mansoorqadri708/mansoorqadri708-sketch.git
+
+# Push to GitHub
+git push -u origin main
