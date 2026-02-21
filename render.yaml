@@ -1,0 +1,10 @@
+# render.yaml
+services:
+  - type: web
+    name: mansoor-upload-app
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18.17.0
