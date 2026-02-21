@@ -1,0 +1,294 @@
+---
+layout: default
+title: Mahfil Events
+permalink: /mahafil/
+---
+
+<div class="mahfil-container">
+    <h1 class="page-title">🕌 Mahfil Events</h1>
+    
+    <!-- Mahfil Categories -->
+    <div class="mahfil-categories">
+        <button class="category-filter active" data-category="all">All Mahfils</button>
+        <button class="category-filter" data-category="weekly">Weekly</button>
+        <button class="category-filter" data-category="monthly">Monthly</button>
+        <button class="category-filter" data-category="special">Special</button>
+    </div>
+    
+    <!-- Mahfil Events Grid -->
+    <div class="mahfil-grid" id="mahfilGrid">
+        <!-- Mahfil cards will be loaded here -->
+    </div>
+    
+    <!-- Photo Gallery from D:/Mansoor-photos/mahfil -->
+    <div class="photo-section">
+        <h2>📸 Mahfil Photo Gallery</h2>
+        <div class="photo-grid" id="mahfilPhotos">
+            <!-- Photos will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<script>
+// Mahfil Events Data
+const mahfilEvents = [
+    {
+        id: 1,
+        title: "Weekly Quran Recitation",
+        date: "2026-02-22",
+        time: "7:00 PM",
+        category: "weekly",
+        description: "Weekly Quran recitation and discussion",
+        speaker: "Qari Abdul Rahman",
+        photos: ["mahfil-weekly1.jpg", "mahfil-weekly2.jpg"]
+    },
+    {
+        id: 2,
+        title: "Monthly Spiritual Gathering",
+        date: "2026-02-28",
+        time: "6:30 PM",
+        category: "monthly",
+        description: "Monthly mahfil with special guests",
+        speaker: "Dr. Muhammad Ali",
+        photos: ["mahfil-monthly1.jpg"]
+    },
+    {
+        id: 3,
+        title: "Eid Milad Un Nabi",
+        date: "2026-03-15",
+        time: "8:00 PM",
+        category: "special",
+        description: "Special mahfil celebrating Eid Milad Un Nabi",
+        speaker: "Multiple Scholars",
+        photos: ["mahfil-special1.jpg", "mahfil-special2.jpg", "mahfil-special3.jpg"]
+    }
+];
+
+// Load Mahfil Photos from D:/Mansoor-photos/mahfil
+function loadMahfilPhotos() {
+    const photoGrid = document.getElementById('mahfilPhotos');
+    
+    // Sample mahfil photos - replace with your actual uploaded photos
+    const photos = [
+        { name: 'mahfil1.jpg', title: 'Weekly Mahfil', date: '2026-02-22' },
+        { name: 'mahfil2.jpg', title: 'Quran Recitation', date: '2026-02-15' },
+        { name: 'mahfil3.jpg', title: 'Special Gathering', date: '2026-02-10' },
+        { name: 'mahfil4.jpg', title: 'Night Prayer', date: '2026-02-05' },
+        { name: 'mahfil5.jpg', title: 'Community Iftar', date: '2026-02-01' }
+    ];
+    
+    photos.forEach(photo => {
+        const photoItem = document.createElement('div');
+        photoItem.className = 'photo-item';
+        photoItem.innerHTML = `
+            <img src="/assets/images/mahfil/${photo.name}" 
+                 alt="${photo.title}"
+                 onerror="this.src='/assets/images/placeholder.jpg'">
+            <div class="photo-info">
+                <h4>${photo.title}</h4>
+                <p>${photo.date}</p>
+            </div>
+        `;
+        photoGrid.appendChild(photoItem);
+    });
+}
+
+// Display Mahfil Events
+function displayMahfilEvents(category = 'all') {
+    const grid = document.getElementById('mahfilGrid');
+    
+    const filteredEvents = category === 'all' 
+        ? mahfilEvents 
+        : mahfilEvents.filter(event => event.category === category);
+    
+    grid.innerHTML = filteredEvents.map(event => `
+        <div class="mahfil-card" data-category="${event.category}">
+            <div class="mahfil-header">
+                <span class="mahfil-category">${event.category}</span>
+                <h3>${event.title}</h3>
+            </div>
+            <div class="mahfil-details">
+                <p><strong>📅 Date:</strong> ${event.date}</p>
+                <p><strong>⏰ Time:</strong> ${event.time}</p>
+                <p><strong>🎤 Speaker:</strong> ${event.speaker}</p>
+                <p class="description">${event.description}</p>
+            </div>
+            <div class="mahfil-actions">
+                <button class="btn-reminder" onclick="setReminder('${event.title}')">
+                    ⏰ Set Reminder
+                </button>
+                <button class="btn-photos" onclick="viewMahfilPhotos(${event.id})">
+                    📸 View Photos (${event.photos.length})
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Filter functionality
+document.querySelectorAll('.category-filter').forEach(button => {
+    button.addEventListener('click', function() {
+        document.querySelectorAll('.category-filter').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        this.classList.add('active');
+        displayMahfilEvents(this.dataset.category);
+    });
+});
+
+// Set reminder function
+function setReminder(title) {
+    alert(`Reminder set for: ${title}\nYou will be notified before the event.`);
+}
+
+// View mahfil photos
+function viewMahfilPhotos(eventId) {
+    const event = mahfilEvents.find(e => e.id === eventId);
+    alert(`Loading photos for: ${event.title}\nPhotos: ${event.photos.join(', ')}`);
+    // Here you can open a modal gallery
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    displayMahfilEvents('all');
+    loadMahfilPhotos();
+});
+</script>
+
+<style>
+.mahfil-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.mahfil-categories {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.category-filter {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    background: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.category-filter:hover {
+    background: #f093fb;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.category-filter.active {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: white;
+    box-shadow: 0 5px 15px rgba(240, 147, 251, 0.3);
+}
+
+.mahfil-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+.mahfil-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    border: 1px solid rgba(240, 147, 251, 0.2);
+}
+
+.mahfil-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(240, 147, 251, 0.2);
+}
+
+.mahfil-header {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: white;
+    padding: 20px;
+    position: relative;
+}
+
+.mahfil-category {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.2);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.mahfil-header h3 {
+    margin: 0;
+    font-size: 20px;
+    padding-right: 70px;
+}
+
+.mahfil-details {
+    padding: 20px;
+}
+
+.mahfil-details p {
+    margin: 8px 0;
+    color: #555;
+}
+
+.mahfil-details .description {
+    color: #777;
+    font-style: italic;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #eee;
+}
+
+.mahfil-actions {
+    padding: 15px 20px;
+    background: #f8f9fa;
+    display: flex;
+    gap: 10px;
+}
+
+.btn-reminder, .btn-photos {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+}
+
+.btn-reminder {
+    background: #4facfe;
+    color: white;
+}
+
+.btn-reminder:hover {
+    background: #00f2fe;
+    transform: translateY(-2px);
+}
+
+.btn-photos {
+    background: #f093fb;
+    color: white;
+}
+
+.btn-photos:hover {
+    background: #f5576c;
+    transform: translateY(-2px);
+}
+</style>

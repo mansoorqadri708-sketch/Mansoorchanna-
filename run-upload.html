@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload to D: Drive - Mansoor Photography</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a4d3e, #8b2c2c);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        h2 {
+            color: #1a4d3e;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        .info-box {
+            background: #f0e9e0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .info-box p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .step {
+            background: #1a4d3e;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        .step-number {
+            background: #c9a13b;
+            color: #1a4d3e;
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .btn {
+            background: #c9a13b;
+            color: #1a4d3e;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        .btn-secondary {
+            background: #8b2c2c;
+            color: white;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .folder-path {
+            background: #1a4d3e;
+            color: #c9a13b;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 16px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <h2>📤 Upload to D: Drive</h2>
+        
+        <div class="info-box">
+            <p><strong>📍 Destination:</strong> D:\Mansoor-Photos\</p>
+            <p><strong>📁 Source:</strong> Your website folder</p>
+            <p><strong>📋 Files:</strong> Photos (.jpg, .png) and Videos (.mp4)</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">1</span> <strong>Open File Explorer</strong>
+            <p style="margin-left: 35px; margin-top: 5px; color: #c9a13b;">Press Windows + E</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span> <strong>Go to your website folder</strong>
+            <div class="folder-path">Desktop → mansoor-website</div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span> <strong>Double-click upload.bat</strong>
+            <p style="margin-left: 35px; margin-top: 5px;">Look for file named <strong>upload.bat</strong></p>
+        </div>
+
+        <div style="margin: 30px 0;">
+            <button class="btn" onclick="openFolder()">📂 Open Website Folder</button>
+            <button class="btn btn-secondary" onclick="showComplete()">✅ I Did This</button>
+        </div>
+
+        <p style="color: #666; margin-top: 20px;">
+            ⚡ After clicking upload.bat, files will be copied to D:\Mansoor-Photos\
+        </p>
+    </div>
+
+    <script>
+        function openFolder() {
+            // Try to open the folder (works in some browsers)
+            window.location.href = 'file:///C:/Users/' + getUsername() + '/Desktop/mansoor-website';
+            
+            // Show helpful message
+            document.getElementById('mainContainer').innerHTML = `
+                <h2>📂 Opening Folder...</h2>
+                <p>If folder didn't open, follow these steps:</p>
+                <ol style="text-align: left; margin: 20px;">
+                    <li>Press <strong>Windows + E</strong></li>
+                    <li>Click <strong>Desktop</strong> on left side</li>
+                    <li>Double-click <strong>mansoor-website</strong></li>
+                    <li>Double-click <strong>upload.bat</strong></li>
+                </ol>
+                <button class="btn" onclick="window.location.reload()">◀ Back</button>
+            `;
+        }
+
+        function showComplete() {
+            document.getElementById('mainContainer').innerHTML = `
+                <h2 style="color: green;">✅ Upload Complete!</h2>
+                <div class="success">
+                    <p>✓ Your files have been uploaded to:</p>
+                    <div class="folder-path">D:\\Mansoor-Photos\\</div>
+                </div>
+                <div style="margin: 30px 0;">
+                    <button class="btn" onclick="openDDrive()">📁 Open D: Drive Folder</button>
+                    <button class="btn btn-secondary" onclick="window.close()">Close</button>
+                </div>
+                <p>Need to upload more? Just double-click upload.bat again!</p>
+            `;
+        }
+
+        function openDDrive() {
+            // Try to open D: drive
+            window.location.href = 'file:///D:/Mansoor-Photos';
+            
+            document.getElementById('mainContainer').innerHTML += `
+                <p style="color: #666;">If folder didn't open, manually go to: D:\\Mansoor-Photos\\</p>
+            `;
+        }
+
+        function getUsername() {
+            // Simple way to get username - returns current user
+            try {
+                return window.location.pathname.split('/')[2] || 'YourUsername';
+            } catch(e) {
+                return 'YourUsername';
+            }
+        }
+    </script>
+</body>
+</html>

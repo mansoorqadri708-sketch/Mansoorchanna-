@@ -1,0 +1,8 @@
+my-upload-app/
+├── public/
+│   └── uploads/          (this will be created automatically)
+├── views/
+│   └── index.html
+├── server.js
+├── package.json
+└── .gitignore

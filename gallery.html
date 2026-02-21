@@ -1,0 +1,343 @@
+---
+layout: default
+title: Photo Gallery
+permalink: /gallery/
+---
+
+<div class="gallery-container">
+    <h1 class="page-title">🖼️ Photo Gallery</h1>
+    
+    <!-- Gallery Categories -->
+    <div class="gallery-categories">
+        <button class="gallery-filter active" data-category="all">All Photos</button>
+        <button class="gallery-filter" data-category="events">Events</button>
+        <button class="gallery-filter" data-category="mahfil">Mahfil</button>
+        <button class="gallery-filter" data-category="community">Community</button>
+    </div>
+    
+    <!-- Photo Grid -->
+    <div class="gallery-grid" id="galleryGrid">
+        <!-- Photos will be loaded here -->
+    </div>
+    
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div id="lightbox-caption"></div>
+        <button class="lightbox-nav prev">←</button>
+        <button class="lightbox-nav next">→</button>
+    </div>
+</div>
+
+<script>
+// Gallery Photos Data (from D:/Mansoor-photos)
+const galleryPhotos = [
+    // Events Category
+    {
+        id: 1,
+        title: "Annual Day Celebration",
+        category: "events",
+        date: "2026-02-15",
+        path: "/assets/images/events/event1.jpg",
+        description: "Annual day celebration with community members"
+    },
+    {
+        id: 2,
+        title: "Sports Event",
+        category: "events",
+        date: "2026-02-10",
+        path: "/assets/images/events/event2.jpg",
+        description: "Annual sports competition"
+    },
+    {
+        id: 3,
+        title: "Cultural Program",
+        category: "events",
+        date: "2026-02-05",
+        path: "/assets/images/events/event3.jpg",
+        description: "Cultural night performances"
+    },
+    
+    // Mahfil Category
+    {
+        id: 4,
+        title: "Weekly Mahfil",
+        category: "mahfil",
+        date: "2026-02-22",
+        path: "/assets/images/mahfil/mahfil1.jpg",
+        description: "Weekly spiritual gathering"
+    },
+    {
+        id: 5,
+        title: "Quran Recitation",
+        category: "mahfil",
+        date: "2026-02-18",
+        path: "/assets/images/mahfil/mahfil2.jpg",
+        description: "Special Quran recitation night"
+    },
+    {
+        id: 6,
+        title: "Night Prayer",
+        category: "mahfil",
+        date: "2026-02-12",
+        path: "/assets/images/mahfil/mahfil3.jpg",
+        description: "Late night prayer gathering"
+    },
+    
+    // Community Category
+    {
+        id: 7,
+        title: "Community Dinner",
+        category: "community",
+        date: "2026-02-20",
+        path: "/assets/images/community/community1.jpg",
+        description: "Monthly community dinner"
+    },
+    {
+        id: 8,
+        title: "Volunteer Day",
+        category: "community",
+        date: "2026-02-08",
+        path: "/assets/images/community/community2.jpg",
+        description: "Community service day"
+    },
+    {
+        id: 9,
+        title: "Family Gathering",
+        category: "community",
+        date: "2026-02-01",
+        path: "/assets/images/community/community3.jpg",
+        description: "Annual family gathering"
+    }
+];
+
+let currentLightboxIndex = 0;
+let filteredPhotos = [];
+
+// Display Gallery
+function displayGallery(category = 'all') {
+    const grid = document.getElementById('galleryGrid');
+    
+    filteredPhotos = category === 'all' 
+        ? galleryPhotos 
+        : galleryPhotos.filter(photo => photo.category === category);
+    
+    grid.innerHTML = filteredPhotos.map((photo, index) => `
+        <div class="gallery-item" data-category="${photo.category}" onclick="openLightbox(${index})">
+            <img src="${photo.path}" 
+                 alt="${photo.title}"
+                 loading="lazy"
+                 onerror="this.src='/assets/images/placeholder.jpg'">
+            <div class="gallery-overlay">
+                <h3>${photo.title}</h3>
+                <p>${photo.date}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Filter functionality
+document.querySelectorAll('.gallery-filter').forEach(button => {
+    button.addEventListener('click', function() {
+        document.querySelectorAll('.gallery-filter').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        this.classList.add('active');
+        displayGallery(this.dataset.category);
+    });
+});
+
+// Lightbox functionality
+function openLightbox(index) {
+    currentLightboxIndex = index;
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    
+    lightbox.style.display = 'block';
+    updateLightboxImage();
+}
+
+function updateLightboxImage() {
+    const photo = filteredPhotos[currentLightboxIndex];
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    
+    lightboxImg.src = photo.path;
+    lightboxCaption.innerHTML = `
+        <h3>${photo.title}</h3>
+        <p>${photo.date} | ${photo.category}</p>
+        <p>${photo.description}</p>
+    `;
+}
+
+// Close lightbox
+document.querySelector('.close-lightbox').addEventListener('click', function() {
+    document.getElementById('lightbox').style.display = 'none';
+});
+
+// Navigate lightbox
+document.querySelector('.lightbox-nav.prev').addEventListener('click', function() {
+    currentLightboxIndex = (currentLightboxIndex - 1 + filteredPhotos.length) % filteredPhotos.length;
+    updateLightboxImage();
+});
+
+document.querySelector('.lightbox-nav.next').addEventListener('click', function() {
+    currentLightboxIndex = (currentLightboxIndex + 1) % filteredPhotos.length;
+    updateLightboxImage();
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e) {
+    if (document.getElementById('lightbox').style.display === 'block') {
+        if (e.key === 'ArrowLeft') {
+            document.querySelector('.lightbox-nav.prev').click();
+        } else if (e.key === 'ArrowRight') {
+            document.querySelector('.lightbox-nav.next').click();
+        } else if (e.key === 'Escape') {
+            document.querySelector('.close-lightbox').click();
+        }
+    }
+});
+
+// Close lightbox when clicking outside image
+document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) {
+        this.style.display = 'none';
+    }
+});
+
+// Initialize gallery
+document.addEventListener('DOMContentLoaded', function() {
+    displayGallery('all');
+});
+</script>
+
+<style>
+.gallery-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.gallery-categories {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.gallery-filter {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    background: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.gallery-filter:hover {
+    background: #4facfe;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.gallery-filter.active {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+    box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 1;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+}
+
+.gallery-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    padding: 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+}
+
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+}
+
+.gallery-overlay h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+}
+
+.gallery-overlay p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* Lightbox Styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.lightbox-content {
+    display: block;
+    max-width: 90%;
+    max-height: 80%;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 3px solid white;
+    border-radius: 

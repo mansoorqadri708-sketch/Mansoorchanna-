@@ -1,0 +1,1053 @@
+html
+---
+layout: default
+title: Home - Mansoor Channa Photography
+permalink: /
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mansoor Channa Photography - Islamic Moments</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        /* Islamic Pattern Background */
+        .islamic-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path d="M50 0 L61 35 L98 35 L68 57 L79 92 L50 70 L21 92 L32 57 L2 35 L39 35 Z" fill="%234a90e2"/></svg>');
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Header with Login/Register */
+        .top-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 15px 0;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 40px;
+            color: #ffd700;
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { text-shadow: 0 0 10px gold; }
+            50% { text-shadow: 0 0 20px #ffd700; }
+            100% { text-shadow: 0 0 10px gold; }
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-text p {
+            font-size: 14px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        /* Auth Section */
+        .auth-section {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .auth-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+
+        .login-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid #ffd700;
+        }
+
+        .login-btn:hover {
+            background: #ffd700;
+            color: #1e3c72;
+            transform: translateY(-2px);
+        }
+
+        .register-btn {
+            background: #ffd700;
+            color: #1e3c72;
+        }
+
+        .register-btn:hover {
+            background: #ffed4a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,215,0,0.3);
+        }
+
+        /* Main Navigation */
+        .main-nav {
+            background: rgba(255,255,255,0.95);
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #1e3c72;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-menu a:hover::before {
+            left: 100%;
+        }
+
+        .nav-menu a:hover {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30,60,114,0.3);
+        }
+
+        .nav-menu a i {
+            font-size: 18px;
+        }
+
+        .youtube-link {
+            background: #ff0000 !important;
+            color: white !important;
+        }
+
+        .youtube-link:hover {
+            background: #cc0000 !important;
+        }
+
+        /* Hero Section with Islamic Design */
+        .hero-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 40px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid rgba(255,215,0,0.3);
+            margin: 40px 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bismillah {
+            font-size: 48px;
+            font-family: 'Traditional Arabic', serif;
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: glow 3s infinite;
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px gold; }
+            50% { text-shadow: 0 0 30px gold, 0 0 50px #ffd700; }
+            100% { text-shadow: 0 0 10px gold; }
+        }
+
+        .hero-title {
+            font-size: 48px;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-title span {
+            color: #ffd700;
+            font-style: italic;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 30px;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            color: #1e3c72;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 18px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255,215,0,0.3);
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255,215,0,0.5);
+        }
+
+        /* Featured Galleries Slider */
+        .featured-section {
+            padding: 60px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            color: #1e3c72;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        }
+
+        /* Slider/Carousel */
+        .slider-container {
+            position: relative;
+            margin: 40px 0;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            min-width: 100%;
+            position: relative;
+            height: 500px;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            text-align: center;
+        }
+
+        .slide-content h3 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .slide-content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .slide-btn {
+            display: inline-block;
+            padding: 10px 30px;
+            background: #ffd700;
+            color: #1e3c72;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .slide-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(5px);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .slider-nav:hover {
+            background: #ffd700;
+            color: #1e3c72;
+        }
+
+        .slider-nav.prev {
+            left: 20px;
+        }
+
+        .slider-nav.next {
+            right: 20px;
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #ffd700;
+            transform: scale(1.2);
+        }
+
+        /* Category Cards */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ffd700, #ffed4a);
+        }
+
+        .card-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .category-card:hover .card-image img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-content h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .card-content p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .card-link {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .card-link:hover {
+            background: #ffd700;
+            color: #1e3c72;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            padding: 60px 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 20px;
+        }
+
+        .contact-item i {
+            font-size: 30px;
+            color: #ffd700;
+        }
+
+        /* Login/Register Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            position: relative;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #1e3c72;
+        }
+
+        .modal-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: #1e3c72;
+            border-bottom: 3px solid #ffd700;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #ffd700;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255,215,0,0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: #0a1a2f;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero-title {
+                font-size: 32px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .bismillah {
+                font-size: 32px;
+            }
+
+            .nav-menu {
+                gap: 10px;
+            }
+
+            .nav-menu a {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .slide {
+                height: 350px;
+            }
+
+            .slide-content h3 {
+                font-size: 24px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="islamic-pattern"></div>
+
+    <!-- Top Header with Login/Register -->
+    <header class="top-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <i class="fas fa-mosque logo-icon"></i>
+                <div class="logo-text">
+                    <h1>Mansoor Channa</h1>
+                    <p>Islamic Photography</p>
+                </div>
+            </div>
+            
+            <div class="auth-section">
+                <button class="auth-btn login-btn" onclick="openModal('login')">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <button class="auth-btn register-btn" onclick="openModal('register')">
+                    <i class="fas fa-user-plus"></i> Register
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="/events"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                <li><a href="/gallery"><i class="fas fa-images"></i> Gallery</a></li>
+                <li><a href="/mahafil"><i class="fas fa-mosque"></i> Mahfil</a></li>
+                <li><a href="/current-event"><i class="fas fa-clock"></i> Current Event</a></li>
+                <li><a href="/about"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="#" class="youtube-link" target="_blank"><i class="fab fa-youtube"></i> YouTube Channel</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+            <h1 class="hero-title"><span>Capturing Islamic Moments</span> & Memories</h1>
+            <p class="hero-subtitle">Welcome to Mansoor Channa Photography - Preserving your precious moments</p>
+            <a href="/gallery" class="hero-btn">
+                <i class="fas fa-camera"></i> View Gallery
+            </a>
+        </div>
+    </section>
+
+    <!-- Slider Section -->
+    <section class="featured-section">
+        <h2 class="section-title">Featured Mahfil Moments</h2>
+        <div class="slider-container">
+            <div class="slider" id="slider">
+                <div class="slide">
+                    <img src="/assets/images/mahfil/slide1.jpg" alt="Mahfil 1" onerror="this.src='https://via.placeholder.com/1200x500/1e3c72/ffd700?text=Islamic+Gathering'">
+                    <div class="slide-content">
+                        <h3>Weekly Mahfil</h3>
+                        <p>Every Thursday evening - Join us for spiritual gathering</p>
+                        <a href="/mahafil" class="slide-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="/assets/images/mahfil/slide2.jpg" alt="Mahfil 2" onerror="this.src='https://via.placeholder.com/1200x500/2a5298/ffd700?text=Quran+Recitation'">
+                    <div class="slide-content">
+                        <h3>Quran Recitation</h3>
+                        <p>Special Quran recitation nights</p>
+                        <a href="/mahafil" class="slide-btn">Learn More</a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="/assets/images/mahfil/slide3.jpg" alt="Mahfil 3" onerror="this.src='https://via.placeholder.com/1200x500/1e3c72/ffd700?text=Islamic+Events'">
+                    <div class="slide-content">
+                        <h3>Islamic Events</h3>
+                        <p>Capturing beautiful Islamic moments</p>
+                        <a href="/gallery" class="slide-btn">View Gallery</a>
+                    </div>
+                </div>
+            </div>
+            <button class="slider-nav prev" onclick="changeSlide(-1)">❮</button>
+            <button class="slider-nav next" onclick="changeSlide(1)">❯</button>
+            <div class="slider-dots" id="sliderDots">
+                <span class="dot active" onclick="currentSlide(0)"></span>
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Cards -->
+    <section class="featured-section">
+        <h2 class="section-title">Featured Galleries</h2>
+        <div class="category-grid">
+            <div class="category-card">
+                <div class="card-image">
+                    <img src="/assets/images/events/event-card.jpg" alt="Events" onerror="this.src='https://via.placeholder.com/400x300/1e3c72/ffd700?text=Events'">
+                </div>
+                <div class="card-content">
+                    <h3>Events</h3>
+                    <p>Capture your special moments with us</p>
+                    <a href="/events" class="card-link">View Events →</a>
+                </div>
+            </div>
+
+            <div class="category-card">
+                <div class="card-image">
+                    <img src="/assets/images/mahfil/mahfil-card.jpg" alt="Mahfil" onerror="this.src='https://via.placeholder.com/400x300/2a5298/ffd700?text=Mahfil'">
+                </div>
+                <div class="card-content">
+                    <h3>Mahfil</h3>
+                    <p>Spiritual gatherings and memories</p>
+                    <a href="/mahafil" class="card-link">View Mahfil →</a>
+                </div>
+            </div>
+
+            <div class="category-card">
+                <div class="card-image">
+                    <img src="/assets/images/current/current-card.jpg" alt="Current Event" onerror="this.src='https://via.placeholder.com/400x300/1e3c72/ffd700?text=Current+Event'">
+                </div>
+                <div class="card-content">
+                    <h3>Current Event</h3>
+                    <p>Ongoing events and celebrations</p>
+                    <a href="/current-event" class="card-link">View Current →</a>
+                </div>
+            </div>
+
+            <div class="category-card">
+                <div class="card-image">
+                    <img src="/assets/images/gallery/gallery-card.jpg" alt="Gallery" onerror="this.src='https://via.placeholder.com/400x300/2a5298/ffd700?text=Gallery'">
+                </div>
+                <div class="card-content">
+                    <h3>Gallery</h3>
+                    <p>Explore our photo collection</p>
+                    <a href="/gallery" class="card-link">View Gallery →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <h2 class="section-title" style="color: white;">Contact Us</h2>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <i class="fas fa-phone-alt"></i>
+                <span>📞 03112358708</span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-phone-alt"></i>
+                <span>📞 03063644030</span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-user"></i>
+                <span>Mansoor Channa</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login/Register Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            
+            <div class="modal-tabs">
+                <button class="tab-btn active" onclick="switchTab('login')" id="loginTab">Login</button>
+                <button class="tab-btn" onclick="switchTab('register')" id="registerTab">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm" class="tab-pane active">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Username or Email</label>
+                        <input type="text" placeholder="Enter username or email" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerForm" class="tab-pane">
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> First Name</label>
+                            <input type="text" placeholder="First name" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Last Name</label>
+                            <input type="text" placeholder="Last name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" placeholder="03XXXXXXXXX" pattern="[0-9]{11}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Create Password</label>
+                        <input type="password" placeholder="Create password" required id="password">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-check-circle"></i> Confirm Password</label>
+                        <input type="password" placeholder="Confirm password" required id="confirmPassword">
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-user-plus"></i> Register
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Mansoor Channa Photography. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Modal Functions
+        function openModal(type) {
+            document.getElementById('authModal').style.display = 'block';
+            switchTab(type);
+        }
+
+        function closeModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        function switchTab(tab) {
+            // Update tab buttons
+            document.getElementById('loginTab').classList.remove('active');
+            document.getElementById('registerTab').classList.remove('active');
+            document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('registerForm').classList.remove('active');
+
+            if (tab === 'login') {
+                document.getElementById('loginTab').classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.getElementById('registerTab').classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        }
+
+        // Handle Login
+        function handleLogin(event) {
+            event.preventDefault();
+            alert('Login functionality will be implemented with backend. For now, you can use:\n\nDemo credentials:\nUsername: mansoor\nPassword: 123456');
+        }
+
+        // Handle Register
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            alert('Registration successful! Please login to continue.');
+            switchTab('login');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('authModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Slider Functions
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(index) {
+            if (index >= slides.length) slideIndex = 0;
+            if (index < 0) slideIndex = slides.length - 1;
+            
+            document.querySelector('.slider').style.transform = `translateX(-${slideIndex * 100}%)`;
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === slideIndex);
+            });
+        }
+
+        function changeSlide(direction) {
+            slideIndex += direction;
+            showSlide(slideIndex);
+        }
+
+        function currentSlide(index) {
+            slideIndex = index;
+            showSlide(slideIndex);
+        }
+
+        // Auto slide
+        setInterval(() => {
+            changeSlide(1);
+        }, 5000);
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

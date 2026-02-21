@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Easy Upload - Mansoor Photography</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a4d3e, #8b2c2c);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #1a4d3e;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #8b2c2c;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .upload-btn-big {
+            background: #8b2c2c;
+            color: white;
+            border: none;
+            width: 150px;
+            height: 150px;
+            border-radius: 75px;
+            font-size: 60px;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 5px 20px rgba(139,44,44,0.5);
+            transition: all 0.3s;
+            border: 5px solid #c9a13b;
+        }
+        .upload-btn-big:hover {
+            transform: scale(1.1);
+            background: #c9a13b;
+            border-color: #8b2c2c;
+        }
+        .steps {
+            background: #f0e9e0;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: left;
+            margin: 30px 0;
+        }
+        .step-item {
+            margin: 15px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #1a4d3e;
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 11px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 22px;
+        }
+        .folder-path {
+            background: #1a4d3e;
+            color: #c9a13b;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-family: monospace;
+            margin-top: 5px;
+            display: inline-block;
+        }
+        .btn {
+            background: #1a4d3e;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #c9a13b;
+            color: #1a4d3e;
+        }
+        .success-box {
+            background: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <h1>📤 Mansoor Uploader</h1>
+        <div class="subtitle">Save photos to D: drive in one click</div>
+        
+        <button class="upload-btn-big" onclick="startUpload()">📤</button>
+        
+        <div class="steps" id="steps">
+            <div class="step-item">
+                <span class="step-number">1</span>
+                <strong>Click the big button above</strong>
+            </div>
+            <div class="step-item">
+                <span class="step-number">2</span>
+                <strong>Click "Run anyway" if Windows asks</strong>
+            </div>
+            <div class="step-item">
+                <span class="step-number">3</span>
+                <strong>Watch files copy to:</strong>
+                <div class="folder-path">D:\Mansoor-Photos\</div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <button class="btn" onclick="openFolder()">📂 Open Website Folder</button>
+            <button class="btn" onclick="openDDrive()">📁 Open D: Drive</button>
+            <button class="btn" onclick="createShortcut()">✨ Create Desktop Shortcut</button>
+        </div>
+        
+        <p style="margin-top: 20px; color: #666; font-size: 14px;">
+            ⚡ Your files are safe - this only copies them to D: drive
+        </p>
+    </div>
+
+    <script>
+        function startUpload() {
+            document.getElementById('steps').innerHTML = `
+                <div class="success-box">
+                    <h3>✅ UPLOAD STARTED!</h3>
+                    <p>Follow these steps to complete:</p>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">1</span>
+                    <strong>Look for the black window that opened</strong>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">2</span>
+                    <strong>If you see a security warning, click "Run anyway"</strong>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">3</span>
+                    <strong>When done, press any key to close</strong>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">4</span>
+                    <strong>Check D:\\Mansoor-Photos\\ for your files</strong>
+                </div>
+            `;
+            
+            // Try to open the folder automatically
+            setTimeout(() => {
+                window.location.href = 'file:///C:/Users/' + getUsername() + '/Desktop/mansoor-website';
+            }, 500);
+        }
+        
+        function openFolder() {
+            window.location.href = 'file:///C:/Users/' + getUsername() + '/Desktop/mansoor-website';
+        }
+        
+        function openDDrive() {
+            window.location.href = 'file:///D:/Mansoor-Photos';
+            document.getElementById('steps').innerHTML += `
+                <p style="color: #8b2c2c; margin-top: 10px;">
+                    If folder doesn't open, manually go to: D:\\Mansoor-Photos\\
+                </p>
+            `;
+        }
+        
+        function createShortcut() {
+            document.getElementById('steps').innerHTML = `
+                <div class="success-box">
+                    <h3>📌 Shortcut Instructions</h3>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">1</span>
+                    <strong>Open File Explorer</strong>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">2</span>
+                    <strong>Go to Desktop → mansoor-website</strong>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">3</span>
+                    <strong>Right-click upload.bat → Send to → Desktop</strong>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">4</span>
+                    <strong>Now double-click shortcut anytime!</strong>
+                </div>
+            `;
+        }
+        
+        function getUsername() {
+            try {
+                return window.location.pathname.split('/')[2] || 'YourUsername';
+            } catch(e) {
+                return 'YourUsername';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1459 @@
+---
+layout: default
+title: Current Event
+permalink: /current-event/
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Event - Mansoor Channa Photography</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9eef5 100%);
+        }
+
+        .event-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Header Section */
+        .event-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .event-header h1 {
+            font-size: 48px;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .event-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        }
+
+        .event-header p {
+            font-size: 20px;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Main Grid Layout */
+        .event-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 968px) {
+            .event-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Calendar Section */
+        .calendar-section {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .calendar-header h2 {
+            color: #1e3c72;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .calendar-header h2 i {
+            color: #ffd700;
+        }
+
+        .month-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .month-btn {
+            width: 45px;
+            height: 45px;
+            border: none;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(30,60,114,0.3);
+        }
+
+        .month-btn:hover {
+            background: #ffd700;
+            color: #1e3c72;
+            transform: translateY(-2px);
+        }
+
+        .month-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Calendar Grid */
+        .calendar {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .weekday {
+            padding: 10px;
+            background: rgba(255,215,0,0.1);
+            border-radius: 10px;
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .day:hover {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(30,60,114,0.3);
+        }
+
+        .day.has-event {
+            background: #fff9e6;
+            border: 2px solid #ffd700;
+        }
+
+        .day.today {
+            background: #ffd700;
+            color: #1e3c72;
+            font-weight: bold;
+        }
+
+        .event-dot {
+            width: 6px;
+            height: 6px;
+            background: #ffd700;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 5px;
+        }
+
+        .day.empty {
+            background: transparent;
+            cursor: default;
+            box-shadow: none;
+        }
+
+        .day.empty:hover {
+            background: transparent;
+            transform: none;
+            color: inherit;
+        }
+
+        .day-number {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Events List */
+        .events-list-section {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .events-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .events-list-header h3 {
+            color: #1e3c72;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .events-list-header h3 i {
+            color: #ffd700;
+        }
+
+        .selected-date {
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            color: #1e3c72;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .events-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .events-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .events-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .events-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border-radius: 10px;
+        }
+
+        .event-card {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: 20px;
+            padding: 25px;
+            border-left: 5px solid #ffd700;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, transparent, rgba(255,215,0,0.1));
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        .event-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 30px rgba(255,215,0,0.2);
+        }
+
+        .event-card h4 {
+            color: #1e3c72;
+            font-size: 22px;
+            margin-bottom: 15px;
+            padding-right: 30px;
+        }
+
+        .event-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .event-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #555;
+            font-size: 15px;
+        }
+
+        .event-detail-item i {
+            color: #ffd700;
+            width: 20px;
+        }
+
+        .event-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255,215,0,0.05);
+            border-radius: 12px;
+        }
+
+        .event-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+        }
+
+        .reminder-btn {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            flex: 1;
+        }
+
+        .reminder-btn:hover {
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30,60,114,0.3);
+        }
+
+        .join-btn {
+            background: #ffd700;
+            color: #1e3c72;
+            flex: 1;
+        }
+
+        .join-btn:hover {
+            background: #ffed4a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,215,0,0.3);
+        }
+
+        .photos-btn {
+            background: #28a745;
+            color: white;
+            flex: 1;
+        }
+
+        .photos-btn:hover {
+            background: #34ce57;
+            transform: translateY(-2px);
+        }
+
+        /* Photo Gallery Section */
+        .photo-gallery-section {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .gallery-header h3 {
+            color: #1e3c72;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .gallery-header h3 i {
+            color: #ffd700;
+        }
+
+        .drive-path {
+            background: #f8f9fa;
+            padding: 12px 25px;
+            border-radius: 50px;
+            color: #666;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #e1e1e1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .drive-path i {
+            color: #ffd700;
+            font-size: 18px;
+        }
+
+        .photo-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .photo-filter {
+            padding: 8px 20px;
+            border: 2px solid #e1e1e1;
+            border-radius: 25px;
+            background: white;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .photo-filter:hover {
+            border-color: #ffd700;
+            color: #1e3c72;
+        }
+
+        .photo-filter.active {
+            background: #ffd700;
+            border-color: #ffd700;
+            color: #1e3c72;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .photo-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            aspect-ratio: 1;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px rgba(255,215,0,0.3);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .photo-item:hover .photo-overlay {
+            transform: translateY(0);
+        }
+
+        .photo-overlay h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .photo-overlay p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 80%;
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(255,215,0,0.3);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 2001;
+        }
+
+        .lightbox-close:hover {
+            color: #ffd700;
+            transform: rotate(90deg);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-nav:hover {
+            background: #ffd700;
+            color: #1e3c72;
+        }
+
+        .lightbox-nav.prev {
+            left: 20px;
+        }
+
+        .lightbox-nav.next {
+            right: 20px;
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+        }
+
+        /* Reminder Modal */
+        .reminder-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .reminder-content {
+            background: white;
+            margin: 10% auto;
+            padding: 40px;
+            border-radius: 30px;
+            max-width: 500px;
+            position: relative;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .reminder-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .reminder-header i {
+            font-size: 60px;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .reminder-header h3 {
+            color: #1e3c72;
+            font-size: 28px;
+        }
+
+        .reminder-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .reminder-option {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .reminder-option:hover {
+            border-color: #ffd700;
+            background: #fff9e6;
+        }
+
+        .reminder-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #ffd700;
+        }
+
+        .reminder-option label {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .reminder-option small {
+            color: #666;
+            font-size: 13px;
+            margin-left: auto;
+        }
+
+        .reminder-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .reminder-save {
+            flex: 2;
+            padding: 15px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .reminder-save:hover {
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            transform: translateY(-2px);
+        }
+
+        .reminder-cancel {
+            flex: 1;
+            padding: 15px;
+            background: #f8f9fa;
+            color: #666;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .reminder-cancel:hover {
+            background: #e1e1e1;
+        }
+
+        /* Join Modal */
+        .join-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .join-content {
+            background: white;
+            margin: 5% auto;
+            padding: 40px;
+            border-radius: 30px;
+            max-width: 600px;
+            position: relative;
+            animation: slideDown 0.3s ease;
+        }
+
+        .join-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .join-header i {
+            font-size: 60px;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .join-header h3 {
+            color: #1e3c72;
+            font-size: 28px;
+        }
+
+        .join-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            color: #333;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .form-group label i {
+            color: #ffd700;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #ffd700;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255,215,0,0.2);
+        }
+
+        .join-submit {
+            padding: 15px;
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            color: #1e3c72;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .join-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.3);
+        }
+
+        /* No Events Message */
+        .no-events {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-style: italic;
+            background: #f8f9fa;
+            border-radius: 20px;
+        }
+
+        .no-events i {
+            font-size: 50px;
+            color: #ffd700;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="event-container">
+        <!-- Header -->
+        <div class="event-header">
+            <h1><i class="fas fa-calendar-alt"></i> Current Events</h1>
+            <p>Stay updated with our latest Islamic gatherings and events</p>
+        </div>
+
+        <!-- Main Grid: Calendar + Events -->
+        <div class="event-grid">
+            <!-- Calendar Section -->
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <h2><i class="fas fa-calendar"></i> Event Calendar</h2>
+                    <div class="month-nav">
+                        <button class="month-btn" onclick="changeMonth(-1)" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                        <button class="month-btn" onclick="changeMonth(1)" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+
+                <div class="calendar">
+                    <div class="weekdays">
+                        <div class="weekday">Sun</div>
+                        <div class="weekday">Mon</div>
+                        <div class="weekday">Tue</div>
+                        <div class="weekday">Wed</div>
+                        <div class="weekday">Thu</div>
+                        <div class="weekday">Fri</div>
+                        <div class="weekday">Sat</div>
+                    </div>
+                    <div class="days" id="calendarDays">
+                        <!-- Calendar days will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events List Section -->
+            <div class="events-list-section">
+                <div class="events-list-header">
+                    <h3><i class="fas fa-list"></i> Today's Events</h3>
+                    <span class="selected-date" id="selectedDateDisplay">February 21, 2026</span>
+                </div>
+
+                <div class="events-list" id="eventsList">
+                    <!-- Events will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Gallery Section from D:/Mansoor-Photos -->
+        <div class="photo-gallery-section">
+            <div class="gallery-header">
+                <h3><i class="fas fa-images"></i> Event Photos</h3>
+                <div class="drive-path">
+                    <i class="fas fa-hdd"></i>
+                    <span>D:/Mansoor-Photos/Current-Event/</span>
+                </div>
+            </div>
+
+            <div class="photo-filters">
+                <button class="photo-filter active" onclick="filterPhotos('all')">All Photos</button>
+                <button class="photo-filter" onclick="filterPhotos('mahfil')">Mahfil</button>
+                <button class="photo-filter" onclick="filterPhotos('events')">Events</button>
+                <button class="photo-filter" onclick="filterPhotos('current')">Current Event</button>
+                <button class="photo-filter" onclick="filterPhotos('featured')">Featured</button>
+            </div>
+
+            <div class="photo-grid" id="photoGrid">
+                <!-- Photos will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <button class="lightbox-nav prev" onclick="changePhoto(-1)">❮</button>
+        <img class="lightbox-content" id="lightboxImg">
+        <button class="lightbox-nav next" onclick="changePhoto(1)">❯</button>
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+
+    <!-- Reminder Modal -->
+    <div id="reminderModal" class="reminder-modal">
+        <div class="reminder-content">
+            <div class="reminder-header">
+                <i class="fas fa-bell"></i>
+                <h3>Set Reminder</h3>
+            </div>
+            <div class="reminder-options">
+                <div class="reminder-option">
+                    <input type="radio" name="reminder" id="reminder15" checked>
+                    <label for="reminder15">15 minutes before</label>
+                    <small>Recommended</small>
+                </div>
+                <div class="reminder-option">
+                    <input type="radio" name="reminder" id="reminder30">
+                    <label for="reminder30">30 minutes before</label>
+                </div>
+                <div class="reminder-option">
+                    <input type="radio" name="reminder" id="reminder1h">
+                    <label for="reminder1h">1 hour before</label>
+                </div>
+                <div class="reminder-option">
+                    <input type="radio" name="reminder" id="reminder1d">
+                    <label for="reminder1d">1 day before</label>
+                </div>
+            </div>
+            <div class="reminder-actions">
+                <button class="reminder-save" onclick="saveReminder()">Set Reminder</button>
+                <button class="reminder-cancel" onclick="closeReminderModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join Modal -->
+    <div id="joinModal" class="join-modal">
+        <div class="join-content">
+            <div class="join-header">
+                <i class="fas fa-hand-paper"></i>
+                <h3>Join This Event</h3>
+            </div>
+            <form class="join-form" onsubmit="handleJoin(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> First Name</label>
+                        <input type="text" placeholder="Enter first name" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Last Name</label>
+                        <input type="text" placeholder="Enter last name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone Number</label>
+                    <input type="tel" placeholder="03XXXXXXXXX" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-users"></i> Number of Guests</label>
+                        <select required>
+                            <option value="">Select</option>
+                            <option value="1">1 (Just me)</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5+</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-utensils"></i> Meal Preference</label>
+                        <select>
+                            <option value="none">No preference</option>
+                            <option value="vegetarian">Vegetarian</option>
+                            <option value="non-vegetarian">Non-Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-comment"></i> Special Requests</label>
+                    <textarea rows="3" placeholder="Any special requirements..."></textarea>
+                </div>
+
+                <button type="submit" class="join-submit">
+                    <i class="fas fa-check-circle"></i> Confirm Joining
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ==================== Calendar Functions ====================
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+        let selectedEventId = null;
+
+        // Sample Events Data
+        const events = [
+            {
+                id: 1,
+                title: "Weekly Mahfil",
+                date: "2026-02-22",
+                time: "7:00 PM",
+                location: "Central Mosque",
+                description: "Weekly spiritual gathering with Quran recitation and discussion",
+                category: "mahfil",
+                reminder: false
+            },
+            {
+                id: 2,
+                title: "Quran Recitation Night",
+                date: "2026-02-25",
+                time: "8:30 PM",
+                location: "Islamic Center",
+                description: "Special night of Quran recitation and prayers",
+                category: "events",
+                reminder: false
+            },
+            {
+                id: 3,
+                title: "Current Event: Eid Milan",
+                date: "2026-02-28",
+                time: "6:00 PM",
+                location: "Community Hall",
+                description: "Eid Milan celebration with dinner and speeches",
+                category: "current",
+                reminder: false
+            },
+            {
+                id: 4,
+                title: "Friday Sermon",
+                date: "2026-02-21",
+                time: "1:00 PM",
+                location: "Central Mosque",
+                description: "Weekly Friday sermon and prayers",
+                category: "events",
+                reminder: false
+            }
+        ];
+
+        function generateCalendar(month, year) {
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
+            
+            let calendarHTML = '';
+            
+            // Empty cells for days before month starts
+            for (let i = 0; i < firstDay; i++) {
+                calendarHTML += '<div class="day empty"></div>';
+            }
+            
+            // Fill in the days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const hasEvent = events.some(event => event.date === dateStr);
+                
+                let dayClass = 'day';
+                if (hasEvent) dayClass += ' has-event';
+                
+                // Check if it's today
+                if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                    dayClass += ' today';
+                }
+                
+                calendarHTML += `
+                    <div class="${dayClass}" data-date="${dateStr}" onclick="selectDate('${dateStr}')">
+                        <span class="day-number">${day}</span>
+                        ${hasEvent ? '<span class="event-dot"></span>' : ''}
+                    </div>
+                `;
+            }
+            
+            document.getElementById('calendarDays').innerHTML = calendarHTML;
+            
+            // Update month display
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            document.querySelector('.calendar-header h2').innerHTML = `<i class="fas fa-calendar"></i> ${monthNames[month]} ${year}`;
+        }
+
+        function changeMonth(direction) {
+            currentMonth += direction;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar(currentMonth, currentYear);
+        }
+
+        function selectDate(dateStr) {
+            document.getElementById('selectedDateDisplay').textContent = formatDate(dateStr);
+            displayEventsForDate(dateStr);
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        }
+
+        function displayEventsForDate(dateStr) {
+            const dayEvents = events.filter(event => event.date === dateStr);
+            const eventsList = document.getElementById('eventsList');
+            
+            if (dayEvents.length > 0) {
+                eventsList.innerHTML = dayEvents.map(event => `
+                    <div class="event-card">
+                        <h4>${event.title}</h4>
+                        <div class="event-details">
+                            <div class="event-detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>${event.time}</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>${event.location}</span>
+                            </div>
+                        </div>
+                        <div class="event-description">
+                            ${event.description}
+                        </div>
+                        <div class="event-actions">
+                            <button class="action-btn reminder-btn" onclick="openReminderModal(${event.id})">
+                                <i class="fas fa-bell"></i> Reminder
+                            </button>
+                            <button class="action-btn join-btn" onclick="openJoinModal(${event.id})">
+                                <i class="fas fa-hand-paper"></i> Join
+                            </button>
+                            <button class="action-btn photos-btn" onclick="viewEventPhotos('${event.category}')">
+                                <i class="fas fa-camera"></i> Photos
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                eventsList.innerHTML = `
+                    <div class="no-events">
+                        <i class="fas fa-calendar-times"></i>
+                        <h4>No Events Scheduled</h4>
+                        <p>Check back later for updates</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ==================== Photo Gallery Functions ====================
+        let currentPhotoIndex = 0;
+        let currentPhotos = [];
+
+        // Sample photos from D:/Mansoor-Photos
+        function loadPhotosFromDrive() {
+            // This simulates loading from D:/Mansoor-Photos
+            // In production, these would be actual paths to your photos
+            const photos = [
+                {
+                    id: 1,
+                    title: "Weekly Mahfil",
+                    category: "mahfil",
+                    date: "2026-02-15",
+                    path: "D:/Mansoor-Photos/Mahfil/mahfil1.jpg",
+                    thumbnail: "/assets/images/mahfil/thumb1.jpg",
+                    description: "Weekly gathering at Central Mosque"
+                },
+                {
+                    id: 2,
+                    title: "Quran Recitation",
+                    category: "mahfil",
+                    date: "2026-02-18",
+                    path: "D:/Mansoor-Photos/Mahfil/mahfil2.jpg",
+                    thumbnail: "/assets/images/mahfil/thumb2.jpg",
+                    description: "Special Quran recitation night"
+                },
+                {
+                    id: 3,
+                    title: "Eid Celebration",
+                    category: "current",
+                    date: "2026-02-20",
+                    path: "D:/Mansoor-Photos/Current/current1.jpg",
+                    thumbnail: "/assets/images/current/thumb1.jpg",
+                    description: "Eid Milan celebration 2026"
+                },
+                {
+                    id: 4,
+                    title: "Community Iftar",
+                    category: "events",
+                    date: "2026-02-22",
+                    path: "D:/Mansoor-Photos/Events/event1.jpg",
+                    thumbnail: "/assets/images/events/thumb1.jpg",
+                    description: "Community iftar gathering"
+                },
+                {
+                    id: 5,
+                    title: "Night Prayer",
+                    category: "featured",
+                    date: "2026-02-23",
+                    path: "D:/Mansoor-Photos/Featured/featured1.jpg",
+                    thumbnail: "/assets/images/featured/thumb1.jpg",
+                    description: "Late night prayers at mosque"
+                },
+                {
+                    id: 6,
+                    title: "Islamic Seminar",
+                    category: "events",
+                    date: "2026-02-24",
+                    path: "D:/Mansoor-Photos/Events/event2.jpg",
+                    thumbnail: "/assets/images/events/thumb2.jpg",
+                    description: "Islamic knowledge seminar"
+                },
+                {
+                    id: 7,
+                    title: "Special Mahfil",
+                    category: "mahfil",
+                    date: "2026-02-25",
+                    path: "D:/Mansoor-Photos/Mahfil/mahfil3.jpg",
+                    thumbnail: "/assets/images/mahfil/thumb3.jpg",
+                    description: "Special spiritual gathering"
+                },
+                {
+                    id: 8,
+                    title: "Current Event Setup",
+                    category: "current",
+                    date: "2026-02-26",
+                    path: "D:/Mansoor-Photos/Current/current2.jpg",
+                    thumbnail: "/assets/images/current/thumb2.jpg",
+                    description: "Event setup and preparations"
+                }
+            ];
+            
+            currentPhotos = photos;
+            displayPhotos(photos);
+        }
+
+        function displayPhotos(photos) {
+            const grid = document.getElementById('photoGrid');
+            
+            grid.innerHTML = photos.map((photo, index) => `
+                <div class="photo-item" onclick="openLightbox(${index})">
+                    <img src="${photo.thumbnail}" 
+                         alt="${photo.title}"
+                         onerror="this.src='https://via.placeholder.com/300x300/1e3c72/ffd700?text=${photo.title}'">
+                    <div class="photo-overlay">
+                        <h4>${photo.title}</h4>
+                        <p>${photo.date}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterPhotos(category) {
+            // Update active filter
+            document.querySelectorAll('.photo-filter').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter photos
+            const filtered = category === 'all' 
+                ? currentPhotos 
+                : currentPhotos.filter(photo => photo.category === category);
+            
+            displayPhotos(filtered);
+        }
+
+        // ==================== Lightbox Functions ====================
+        function openLightbox(index) {
+            currentPhotoIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxCaption = document.getElementById('lightboxCaption');
+            
+            lightbox.style.display = 'block';
+            updateLightbox();
+        }
+
+        function updateLightbox() {
+            const photo = currentPhotos[currentPhotoIndex];
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxCaption = document.getElementById('lightboxCaption');
+            
+            lightboxImg.src = photo.path;
+            lightboxImg.onerror = function() {
+                this.src = 'https://via.placeholder.com/800x600/1e3c72/ffd700?text=' + photo.title;
+            };
+            lightboxCaption.innerHTML = `
+                <h3>${photo.title}</h3>
+                <p>${photo.date} - ${photo.description}</p>
+            `;
+        }
+
+        function changePhoto(direction) {
+            currentPhotoIndex += direction;
+            if (currentPhotoIndex >= currentPhotos.length) currentPhotoIndex = 0;
+            if (currentPhotoIndex < 0) currentPhotoIndex = currentPhotos.length - 1;
+            updateLightbox();
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        // ==================== Reminder Functions ====================
+        function openReminderModal(eventId) {
+            selectedEventId = eventId;
+            document.getElementById('reminderModal').style.display = 'block';
+        }
+
+        function closeReminderModal() {
+            document.getElementById('reminderModal').style.display = 'none';
+        }
+
+        function saveReminder() {
+            const reminderOption = document.querySelector('input[name="reminder"]:checked');
+            const reminderTime = reminderOption.nextElementSibling.textContent;
+            
+            // Find the event
+            const event = events.find(e => e.id === selectedEventId);
+            
+            alert(`✅ Reminder set for "${event.title}"\n⏰ You'll be notified ${reminderTime.toLowerCase()}`);
+            
+            closeReminderModal();
+        }
+
+        // ==================== Join Functions ====================
+        function openJoinModal(eventId) {
+            selectedEventId = eventId;
+            document.getElementById('joinModal').style.display = 'block';
+        }
+
+        function closeJoinModal() {
+            document.getElementById('joinModal').style.display = 'none';
+        }
+
+        function handleJoin(event) {
+            event.preventDefault();
+            
+            const event_details = events.find(e => e.id === selectedEventId);
+            
+            alert(`✅ Thank you for joining "${event_details.title}"!\n\n📧 Confirmation email will be sent shortly.\n📞 You'll receive updates via SMS.`);
+            
+            closeJoinModal();
+        }
+
+        function viewEventPhotos(category) {
+            filterPhotos(category);
+            
+            // Scroll to photo section
+            document.querySelector('.photo-gallery-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // ==================== Initialize ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCalendar(currentMonth, currentYear);
+            
+            // Show today's events
+            const today = new Date().toISOString().split('T')[0];
+            selectDate(today);
+            
+            // Load photos
+            loadPhotosFromDrive();
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const reminderModal = document.getElementById('reminderModal');
+            const joinModal = document.getElementById('joinModal');
+            const lightbox = document.getElementById('lightbox');
+            
+            if (event.target === reminderModal) {
+                reminderModal.style.display = 'none';
+            }
+            if (event.target === joinModal) {
+                joinModal.style.display = 'none';
+            }
+            if (event.target === lightbox) {
+                lightbox.style.display = 'none';
+            }
+        }
+
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('lightbox').style.display === 'block') {
+                if (e.key === 'ArrowLeft') {
+                    changePhoto(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changePhoto(1);
+                } else if (e.key === 'Escape') {
+                    closeLightbox();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mansoor Photography - Upload System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a4d3e, #8b2c2c);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .header h1 {
+            color: #1a4d3e;
+            font-size: 32px;
+        }
+        
+        .header p {
+            color: #8b2c2c;
+            font-size: 18px;
+        }
+        
+        /* Navigation */
+        .nav-menu {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            background: #1a4d3e;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .nav-btn:hover {
+            background: #c9a13b;
+            color: #1a4d3e;
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn.active {
+            background: #c9a13b;
+            color: #1a4d3e;
+        }
+        
+        /* Main Content */
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .page-title {
+            color: #1a4d3e;
+            font-size: 28px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #c9a13b;
+            padding-bottom: 10px;
+        }
+        
+        /* Upload Section */
+        .upload-section {
+            background: #f0e9e0;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .upload-section h3 {
+            color: #1a4d3e;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .drive-selector {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .drive-option {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .drive-option input[type="radio"] {
+            display: none;
+        }
+        
+        .drive-option label {
+            display: block;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .drive-option input[type="radio"]:checked + label {
+            border-color: #c9a13b;
+            background: #1a4d3e;
+            color: white;
+            transform: scale(1.02);
+        }
+        
+        .drive-option label:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .drive-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .drive-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .drive-path {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .drive-option input:checked + label .drive-path {
+            color: #c9a13b;
+        }
+        
+        /* File Upload Area */
+        .file-upload-area {
+            background: white;
+            border: 3px dashed #1a4d3e;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #c9a13b;
+            background: #f9f7f4;
+        }
+        
+        .upload-icon {
+            font-size: 60px;
+            color: #1a4d3e;
+            margin-bottom: 15px;
+        }
+        
+        .file-upload-area h4 {
+            font-size: 20px;
+            color: #1a4d3e;
+            margin-bottom: 10px;
+        }
+        
+        .file-upload-area p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .browse-btn {
+            background: #1a4d3e;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .browse-btn:hover {
+            background: #c9a13b;
+            color: #1a4d3e;
+        }
+        
+        /* Selected Files */
+        .selected-files {
+            margin: 20px 0;
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        
+        .file-name {
+            color: #1a4d3e;
+            font-weight: 500;
+        }
+        
+        .file-size {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .remove-file {
+            color: #8b2c2c;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 0 5px;
+        }
+        
+        .remove-file:hover {
+            color: #c9a13b;
+        }
+        
+        /* Upload Button */
+        .upload-action-btn {
+            background: #8b2c2c;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .upload-action-btn:hover:not(:disabled) {
+            background: #c9a13b;
+            color: #1a4d3e;
+            transform: scale(1.02);
+        }
+        
+        .upload-action-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .gallery-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-item .caption {
+            padding: 10px;
+            background: #1a4d3e;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .delete-photo {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #8b2c2c;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .gallery-item:hover .delete-photo {
+            opacity: 1;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #f0e9e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1a4d3e, #c9a13b);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .progress-text {
+            text-align: center;
+            color: #1a4d3e;
+            margin: 10px 0;
+            display: none;
+        }
+        
+        /* Message */
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .message.success {
+            background: #4CAF50;
+            color: white;
+            display: block;
+        }
+        
+        .message.error {
+            background: #f44336;
+            color: white;
+            display: block;
+        }
+        
+        /* Footer */
+        .footer {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: #1a4d3e;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .drive-selector {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Mansoor Channa Photography</h1>
+            <p>Upload & Manage Photos from D: Drive</p>
+            
+            <!-- Navigation Buttons -->
+            <div class="nav-menu">
+                <button class="nav-btn" onclick="showPage('gallery')">📸 Gallery</button>
+                <button class="nav-btn" onclick="showPage('mahfil')">🕌 Mahfil</button>
+                <button class="nav-btn" onclick="showPage('events')">📅 Events</button>
+                <button class="nav-btn" onclick="showPage('current')">⭐ Current Event</button>
+                <button class="nav-btn" onclick="showPage('upload')">📤 Upload Photos</button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content" id="mainContent">
+            <!-- Dynamic content will load here -->
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>📞 03128935404 | 03122886353 | Aamir Ansari</p>
+            <p style="color: #8b2c2c; margin-top: 10px;">© 2025 Mansoor Channa Photography</p>
+        </div>
+    </div>
+
+    <script>
+        // Store uploaded photos
+        let galleryPhotos = [];
+        let mahfilPhotos = [];
+        let eventPhotos = [];
+        let currentPhotos = [];
+        
+        // Selected files for upload
+        let selectedFiles = [];
+        
+        // Current page
+        let currentPage = 'gallery';
+        
+        // Initialize
+        window.onload = function() {
+            loadPhotos();
+            showPage('gallery');
+        };
+        
+        // Load photos from localStorage
+        function loadPhotos() {
+            if (localStorage.getItem('galleryPhotos')) {
+                galleryPhotos = JSON.parse(localStorage.getItem('galleryPhotos'));
+            }
+            if (localStorage.getItem('mahfilPhotos')) {
+                mahfilPhotos = JSON.parse(localStorage.getItem('mahfilPhotos'));
+            }
+            if (localStorage.getItem('eventPhotos')) {
+                eventPhotos = JSON.parse(localStorage.getItem('eventPhotos'));
+            }
+            if (localStorage.getItem('currentPhotos')) {
+                currentPhotos = JSON.parse(localStorage.getItem('currentPhotos'));
+            }
+        }
+        
+        // Save photos to localStorage
+        function savePhotos() {
+            localStorage.setItem('galleryPhotos', JSON.stringify(galleryPhotos));
+            localStorage.setItem('mahfilPhotos', JSON.stringify(mahfilPhotos));
+            localStorage.setItem('eventPhotos', JSON.stringify(eventPhotos));
+            localStorage.setItem('currentPhotos', JSON.stringify(currentPhotos));
+        }
+        
+        // Show different pages
+        function showPage(page) {
+            currentPage = page;
+            
+            // Update active button
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target?.classList.add('active');
+            
+            let content = '';
+            
+            if (page === 'upload') {
+                content = getUploadPage();
+            } else {
+                content = getGalleryPage(page);
+            }
+            
+            document.getElementById('mainContent').innerHTML = content;
+        }
+        
+        // Get gallery page HTML
+        function getGalleryPage(page) {
+            let title = '';
+            let photos = [];
+            
+            switch(page) {
+                case 'gallery':
+                    title = '📸 Photo Gallery';
+                    photos = galleryPhotos;
+                    break;
+                case 'mahfil':
+                    title = '🕌 Mahfil Programs';
+                    photos = mahfilPhotos;
+                    break;
+                case 'events':
+                    title = '📅 Events';
+                    photos = eventPhotos;
+                    break;
+                case 'current':
+                    title = '⭐ Current Event';
+                    photos = currentPhotos;
+                    break;
+            }
+            
+            let galleryHTML = `
+                <h2 class="page-title">${title}</h2>
+                
+                <div class="upload-section">
+                    <h3>📤 Upload New Photos to ${title}</h3>
+                    
+                    <div class="drive-selector">
+                        <div class="drive-option">
+                            <input type="radio" name="drive" id="driveD" value="D" checked>
+                            <label for="driveD">
+                                <div class="drive-icon">💾</div>
+                                <div class="drive-name">D: Drive</div>
+                                <div class="drive-path">D:\\Mansoor-Photos\\</div>
+                            </label>
+                        </div>
+                        
+                        <div class="drive-option">
+                            <input type="radio" name="drive" id="driveC" value="C">
+                            <label for="driveC">
+                                <div class="drive-icon">🖥️</div>
+                                <div class="drive-name">C: Drive</div>
+                                <div class="drive-path">C:\\Users\\Pictures\\</div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="file-upload-area" onclick="document.getElementById('fileInput').click()">
+                        <div class="upload-icon">📁</div>
+                        <h4>Click to select photos from D: drive</h4>
+                        <p>or drag and drop files here</p>
+                        <button class="browse-btn" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">Browse D: Drive</button>
+                        <input type="file" id="fileInput" multiple accept="image/*" style="display: none;" onchange="handleFileSelect(this.files, '${page}')">
+                    </div>
+                    
+                    <div class="selected-files" id="selectedFiles"></div>
+                    
+                    <button class="upload-action-btn" onclick="uploadToGallery('${page}')" id="uploadBtn" disabled>Upload to ${title}</button>
+                    
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">0% uploaded</div>
+                    
+                    <div id="message"></div>
+                </div>
+                
+                <h3 style="color: #1a4d3e; margin: 20px 0;">Current Photos</h3>
+                <div class="gallery-grid" id="galleryGrid">
+            `;
+            
+            if (photos.length === 0) {
+                galleryHTML += `<p style="text-align: center; color: #666; padding: 40px;">No photos yet. Upload some!</p>`;
+            } else {
+                photos.forEach((photo, index) => {
+                    galleryHTML += `
+                        <div class="gallery-item">
+                            <img src="${photo.data}" alt="Photo ${index + 1}">
+                            <div class="caption">${photo.name}</div>
+                            <div class="delete-photo" onclick="deletePhoto('${page}', ${index})">✖</div>
+                        </div>
+                    `;
+                });
+            }
+            
+            galleryHTML += `</div>`;
+            
+            return galleryHTML;
+        }
+        
+        // Get upload page HTML
+        function getUploadPage() {
+            return `
+                <h2 class="page-title">📤 Upload Photos to D: Drive</h2>
+                
+                <div class="upload-section">
+                    <h3>Select Photos to Save to D:\\Mansoor-Photos\\</h3>
+                    
+                    <div class="file-upload-area" onclick="document.getElementById('uploadFileInput').click()">
+                        <div class="upload-icon">💾</div>
+                        <h4>Click to select photos from your computer</h4>
+                        <p>These will be saved to D: drive</p>
+                        <button class="browse-btn" onclick="event.stopPropagation(); document.getElementById('uploadFileInput').click()">Browse Computer</button>
+                        <input type="file" id="uploadFileInput" multiple accept="image/*" style="display: none;" onchange="handleDDriveUpload(this.files)">
+                    </div>
+                    
+                    <div class="selected-files" id="dDriveFiles"></div>
+                    
+                    <button class="upload-action-btn" onclick="saveToDDrive()" id="dDriveUploadBtn" disabled>Save to D: Drive</button>
+                    
+                    <div id="dDriveMessage"></div>
+                </div>
+                
+                <h3 style="color: #1a4d3e; margin: 20px 0;">Quick Upload to Galleries</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <button class="nav-btn" onclick="showPage('gallery')" style="text-align: center;">📸 Go to Gallery</button>
+                    <button class="nav-btn" onclick="showPage('mahfil')" style="text-align: center;">🕌 Go to Mahfil</button>
+                    <button class="nav-btn" onclick="showPage('events')" style="text-align: center;">📅 Go to Events</button>
+                    <button class="nav-btn" onclick="showPage('current')" style="text-align: center;">⭐ Go to Current</button>
+                </div>
+            `;
+        }
+        
+        // Handle file selection for gallery
+        function handleFileSelect(files, page) {
+            selectedFiles = Array.from(files);
+            
+            let filesHTML = '<h4>Selected Files:</h4>';
+            selectedFiles.forEach((file, index) => {
+                let size = (file.size / 1024).toFixed(2) + ' KB';
+                if (file.size > 1024 * 1024) {
+                    size = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+                }
+                
+                filesHTML += `
+                    <div class="file-item">
+                        <span class="file-name">${file.name}</span>
+                        <span class="file-size">${size}</span>
+                        <span class="remove-file" onclick="removeFile(${index})">✖</span>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('selectedFiles').innerHTML = filesHTML;
+            document.getElementById('uploadBtn').disabled = false;
+        }
+        
+        // Handle D: drive upload
+        function handleDDriveUpload(files) {
+            selectedFiles = Array.from(files);
+            
+            let filesHTML = '<h4>Files ready for D: drive:</h4>';
+            selectedFiles.forEach((file, index) => {
+                let size = (file.size / 1024).toFixed(2) + ' KB';
+                if (file.size > 1024 * 1024) {
+                    size = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+                }
+                
+                filesHTML += `
+                    <div class="file-item">
+                        <span class="file-name">${file.name}</span>
+                        <span class="file-size">${size}</span>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('dDriveFiles').innerHTML = filesHTML;
+            document.getElementById('dDriveUploadBtn').disabled = false;
+        }
+        
+        // Remove file from selection
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            handleFileSelect(selectedFiles, currentPage);
+        }
+        
+        // Upload to gallery
+        function uploadToGallery(page) {
+            if (selectedFiles.length === 0) return;
+            
+            // Show progress
+            document.getElementById('progressBar').style.display = 'block';
+            document.getElementById('progressText').style.display = 'block';
+            
+            let uploaded = 0;
+            
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    // Add to appropriate gallery
+                    let photo = {
+                        name: file.name,
+                        data: e.target.result,
+                        date: new Date().toLocaleDateString()
+                    };
+                    
+                    switch(page) {
+                        case 'gallery':
+                            galleryPhotos.push(photo);
+                            break;
+                        case 'mahfil':
+                            mahfilPhotos.push(photo);
+                            break;
+                        case 'events':
+                            eventPhotos.push(photo);
+                            break;
+                        case 'current':
+                            currentPhotos.push(photo);
+                            break;
+                    }
+                    
+                    uploaded++;
+                    let percent = (uploaded / selectedFiles.length) * 100;
+                    document.getElementById('progressFill').style.width = percent + '%';
+                    document.getElementById('progressText').innerHTML = `${uploaded} of ${selectedFiles.length} uploaded (${Math.round(percent)}%)`;
+                    
+                    if (uploaded === selectedFiles.length) {
+                        // Save all
+                        savePhotos();
+                        
+                        // Show success message
+                        document.getElementById('message').className = 'message success';
+                        document.getElementById('message').innerHTML = `✅ Successfully uploaded ${uploaded} photos!`;
+                        
+                        // Reset
+                        setTimeout(() => {
+                            showPage(page);
+                        }, 2000);
+                    }
+                };
+                
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        // Save to D: drive
+        function saveToDDrive() {
+            let message = document.getElementById('dDriveMessage');
+            message.className = 'message success';
+            message.innerHTML = `
+                ✅ Files ready to be saved to D:\\Mansoor-Photos\\<br><br>
+                <strong>To complete upload:</strong><br>
+                1. Open File Explorer<br>
+                2. Go to D:\\Mansoor-Photos\\<br>
+                3. Copy these files there<br><br>
+                <button class="nav-btn" onclick="window.open('file:///D:/Mansoor-Photos')">📁 Open D: Drive</button>
+            `;
+            
+            // Create download links for files
+            selectedFiles.forEach(file => {
+                const url = URL.createObjectURL(file);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = file.name;
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
+        
+        // Delete photo
+        function deletePhoto(page, index) {
+            if (confirm('Delete this photo?')) {
+                switch(page) {
+                    case 'gallery':
+                        galleryPhotos.splice(index, 1);
+                        break;
+                    case 'mahfil':
+                        mahfilPhotos.splice(index, 1);
+                        break;
+                    case 'events':
+                        eventPhotos.splice(index, 1);
+                        break;
+                    case 'current':
+                        currentPhotos.splice(index, 1);
+                        break;
+                }
+                
+                savePhotos();
+                showPage(page);
+            }
+        }
+        
+        // Open D: drive folder
+        function openDDrive() {
+            window.open('file:///D:/Mansoor-Photos');
+        }
+    </script>
+</body>
+</html>
